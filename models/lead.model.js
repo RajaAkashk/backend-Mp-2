@@ -25,7 +25,7 @@ const LeadSchema = new mongoose.Schema(
       enum: ["New", "Contacted", "Qualified", "Proposal Sent", "Closed"],
       default: "New",
     },
-    tags: [{ type: String }],
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "crm_tags" }],
     timeToClose: { type: Number, required: true },
     priority: { type: String, enum: ["High", "Medium", "Low"], required: true },
     closedAt: { type: Date }, // The date when the lead was closed (optional, used when status is "Closed")

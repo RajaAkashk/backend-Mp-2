@@ -2,7 +2,7 @@ const Leads = require("../models/lead.model");
 
 exports.getAllLeads = async (req, res) => {
   try {
-    const leads = await Leads.find().populate("salesAgent");
+    const leads = await Leads.find().populate("salesAgent").populate("tags");
     res.status(200).json({ message: "Successfully getting the leads", leads });
   } catch (error) {
     res.status(500).json({
