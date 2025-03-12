@@ -15,7 +15,7 @@ exports.getAllAgents = async (req, res) => {
 
 exports.createSalesAgent = async (req, res) => {
   try {
-    const { name, email, phone } = req.body;
+    const { name, email } = req.body;
 
     //To check if the email already exists
     const existingAgent = await SalesAgent.findOne({ email });
@@ -25,10 +25,10 @@ exports.createSalesAgent = async (req, res) => {
       });
     }
 
-    const newSalesAgent = new SalesAgent({ name, email, phone });
+    const newSalesAgent = new SalesAgent({ name, email });
     await newSalesAgent.save();
 
-    req.status(201).json({
+    res.status(201).json({
       message: "New sales agents created successfully",
       newSalesAgent,
     });

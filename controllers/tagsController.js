@@ -13,6 +13,18 @@ exports.getAllTags = async (req, res) => {
   }
 };
 
+exports.createTag = async (req, res) => {
+  try {
+    const newTag = new Tags(req.body);
+    await newTag.save();
+    res.status(201).json({ message: "Successfully created the tag", newTag });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error in creating the tags", error: error.message });
+  }
+};
+
 exports.deleteTag = async (req, res) => {
   try {
     const deletedTag = await Tags.findByIdAndDelete(req.params.id);
