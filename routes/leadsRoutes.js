@@ -6,9 +6,11 @@ const {
   createLead,
   deletedLead,
   updateLead,
+  getLeadById,
 } = require("../controllers/leadController");
 
 router.get("/", getAllLeads);
+router.get("/:id", getLeadById);
 router.post("/", createLead);
 router.put("/:id", updateLead);
 router.delete("/:id", deletedLead);
