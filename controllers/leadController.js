@@ -12,6 +12,25 @@ exports.getAllLeads = async (req, res) => {
   }
 };
 
+exports.getLeadById = async (req, res) => {
+  try {
+    const lead = await Leads.findById(req.params.id) // Use req.params.id
+      .populate("salesAgent")
+      .populate("tags");
+
+    if (!lead) {
+      return res.status(404).json({ message: "Lead not found" });
+    }
+
+    res.status(200).json({ message: "Successfully retrieved lead", lead });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error occurred while getting lead by ID",
+      error: error.message,
+    });
+  }
+};
+
 exports.createLead = async (req, res) => {
   try {
     const newLead = new Leads(req.body);
