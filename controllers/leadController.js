@@ -1,8 +1,31 @@
+const mongoose = require("mongoose");
 const Leads = require("../models/lead.model");
+
+// exports.getAllLeads = async (req, res) => {
+//   try {
+//     const leads = await Leads.find().populate("salesAgent").populate("tags");
+//     res.status(200).json({ message: "Successfully getting the leads", leads });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Error occurred while getting all leads",
+//       error: error.message,
+//     });
+//   }
+// };
 
 exports.getAllLeads = async (req, res) => {
   try {
-    const leads = await Leads.find().populate("salesAgent").populate("tags");
+    let query = {};
+    if (req.query.salesAgent) {
+      query.salesAgent = new mongoose.Types.ObjectId(req.query.salesAgent);
+    }
+    if (req.query.status) {
+      query.status = req.query.status;
+    }
+    console.log("Query being executed:", query);
+    const leads = await Leads.find(query)
+      .populate("salesAgent")
+      .populate("tags");
     res.status(200).json({ message: "Successfully getting the leads", leads });
   } catch (error) {
     res.status(500).json({
