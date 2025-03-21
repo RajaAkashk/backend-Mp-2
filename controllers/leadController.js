@@ -1,18 +1,6 @@
 const mongoose = require("mongoose");
 const Leads = require("../models/lead.model");
 
-// exports.getAllLeads = async (req, res) => {
-//   try {
-//     const leads = await Leads.find().populate("salesAgent").populate("tags");
-//     res.status(200).json({ message: "Successfully getting the leads", leads });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Error occurred while getting all leads",
-//       error: error.message,
-//     });
-//   }
-// };
-
 exports.getAllLeads = async (req, res) => {
   try {
     let query = {};
@@ -70,7 +58,9 @@ exports.updateLead = async (req, res) => {
   try {
     const updatedLead = await Leads.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-    });
+    })
+      .populate("salesAgent")
+      .populate("tags");
     if (!updatedLead) {
       return res.status(404).json({ message: "Lead not found" });
     }
