@@ -45,7 +45,10 @@ exports.getLeadById = async (req, res) => {
 exports.createLead = async (req, res) => {
   try {
     const newLead = new Leads(req.body);
-    const savedLead = await newLead.save();
+    const savedLead = await newLead
+      .save()
+      .populate("salesAgent")
+      .populate("tags");
     res.status(201).json({ message: "New Lead added successfully", savedLead });
   } catch (error) {
     res
