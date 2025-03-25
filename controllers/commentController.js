@@ -5,8 +5,8 @@ const Lead = require("../models/lead.model");
 exports.addComment = async (req, res) => {
   try {
     const { id } = req.params; // Lead ID
-    const { commentText } = req.body;
-    const author = req.user._id; // sales agent id
+    const { commentText, author } = req.body;
+    // const author = req.user._id;
 
     if (!commentText) {
       return res
