@@ -5,10 +5,10 @@ const Lead = require("../models/lead.model");
 exports.addComment = async (req, res) => {
   try {
     const { id } = req.params; // Lead ID
-    const { commentText, author } = req.body;
+    const { commentText } = req.body;
+    const author = req.user._id; // sales agent id
 
-    // Validate input
-    if (!commentText || typeof commentText !== "string") {
+    if (!commentText) {
       return res
         .status(400)
         .json({ error: "Comment text is required and must be a string." });
@@ -23,7 +23,7 @@ exports.addComment = async (req, res) => {
     // Create new comment
     const newComment = new Comment({
       lead: id,
-      author, // This should be a valid salesAgent ID
+      author,
       commentText,
     });
 
@@ -44,7 +44,6 @@ exports.getCommentsByLead = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate lead ID
     const lead = await Lead.findById(id);
     if (!lead) {
       return res.status(404).json({ error: `Lead with ID '${id}' not found.` });
