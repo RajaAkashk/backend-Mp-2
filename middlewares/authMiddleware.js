@@ -12,7 +12,7 @@ const authenticateUser = (req, res, next) => {
     req.user = decoded; // Attach user data to the request object
     next();
   } catch (error) {
-    res.status(400).json({ error: "Invalid token" });
+    res.status(400).json({ message: "Invalid token", error });
   }
 };
 
