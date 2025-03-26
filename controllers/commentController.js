@@ -27,7 +27,11 @@ exports.addComment = async (req, res) => {
       commentText,
     });
 
-    const savedComment = await newComment.save();
+    await newComment.save();
+
+    const savedComment = await Comment.findById(newComment._id)
+      .populate("author")
+      .populate("lead");
 
     res
       .status(201)
